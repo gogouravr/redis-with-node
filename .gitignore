@@ -2,7 +2,7 @@
 node_modules/
 
 #transpiled ts code
-dist
+dist/
 
 #.env file
 .env
