@@ -1,2 +1,8 @@
-#Ignore transpiled code
+#node modules
+node_modules/
+
+#transpiled ts code
 dist
+
+#.env file
+.env
