@@ -1,6 +1,6 @@
 import express from 'express';
 
-import cachingRoutes from './api/caching.api'
+import cacheRoutes from './api/cache.api'
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,7 +9,9 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 // caching routes
-app.use(cachingRoutes);
+app.use('/cache', cacheRoutes);
+
+
 
 app.listen(port, () => {
     console.log(`Server connected on ${port}!!`);
