@@ -1,19 +1,15 @@
-import { createClient, RedisClientType, RedisClientOptions } from 'redis';
+import { createClient, RedisClientOptions } from 'redis';
 
 // Redis server connection options
 const redisOptions: RedisClientOptions = {
     url: `redis://:foobared@localhost:6379`
 };
 
-class RedisClient {
+export default class RedisClient {
     private client: any;
 
-    constructor() {
-        this.initialize();
-    }
-
-    async initialize() {
-        this.client = await createClient(redisOptions)
+    async connect() {
+        return this.client = await createClient(redisOptions)
             .on('error', err => console.log('Redis Client Error', err))
             .connect();
     }
@@ -25,7 +21,14 @@ class RedisClient {
     async get(key: string) {
         return this.client.get(key);
     }
+
+    async publish(channel: string, msg: any) {
+        return this.client.publish(channel, msg);
+    }
+
+    async subscribe(channel: string, listener: any) {
+        return this.client.subscribe(channel, listener);
+    }
 }
 
-export const redisClient = new RedisClient();
 
