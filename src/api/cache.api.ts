@@ -1,16 +1,14 @@
 import { Router, Request, Response } from "express";
 
-import { redisClient } from '../utils/redis';
+import RedisClient from '../utils/redis';
 
 const router = Router();
+const redisClient = new RedisClient();
+redisClient.connect();
 
-router.post('/store', (req: Request, res: Response) => {
+router.post('/publish', (req: Request, res: Response) => {
     const data = req.body;
     console.log(JSON.stringify(data));
-    for (const property in data) {
-        console.log(`${property}: ${data[property]}`);
-        redisClient.set(property, data[property]);
-    }
     res.json({ msg: 'success' });
 })
 
