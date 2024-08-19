@@ -1,4 +1,4 @@
-import { createClient, RedisClientOptions } from 'redis';
+import { createClient, RedisClientOptions, RedisClientType } from 'redis';
 
 // Redis server connection options
 const redisOptions: RedisClientOptions = {
@@ -28,6 +28,14 @@ export default class RedisClient {
 
     async subscribe(channel: string, listener: any) {
         return this.client.subscribe(channel, listener);
+    }
+
+    async enqueue(queue: string, msg: string) {
+        return this.client.rPush(queue, [msg]);
+    }
+
+    async dequeue(queue: string) {
+        return this.client.blPop(queue);
     }
 }
 
