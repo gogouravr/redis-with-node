@@ -35,7 +35,7 @@ export default class RedisClient {
     }
 
     async dequeue(queue: string) {
-        return this.client.blPop(queue);
+        return this.client.lPop(queue);
     }
 }
 
