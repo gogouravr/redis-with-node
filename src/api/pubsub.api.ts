@@ -3,6 +3,7 @@ import { Router, Request, Response } from "express";
 import RedisClient from '../utils/redis';
 
 const router = Router();
+let counter = 1;
 
 router.post('/publish/:channel', async (req: Request, res: Response) => {
     const { msg } = req.body;
@@ -14,12 +15,13 @@ router.post('/publish/:channel', async (req: Request, res: Response) => {
     res.json({ msg: 'success', response });
 });
 
-router.get('/subscribe/:channel', async (req: Request, res: Response) => {
+router.post('/subscribe/:channel', async (req: Request, res: Response) => {
     const { channel } = req.params;
     //create a subscriber redis client
     const subscriber = new RedisClient();
     await subscriber.connect();
-    const response = await subscriber.subscribe(channel, console.log);
+    const clinetCount = counter++;
+    const response = await subscriber.subscribe(channel, (message: string, channel: string) => console.log(clinetCount, channel, message));
     res.json({ msg: 'success', channel, response: response });
 });
 
